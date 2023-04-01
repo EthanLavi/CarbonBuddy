@@ -1,5 +1,6 @@
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
+import 'package:eat_neat/models/image_recognition/uid.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
@@ -13,6 +14,7 @@ class SplashHome extends StatelessWidget {
         CameraSingleton.instance.camera = await availableCameras();
       }),
       GoogleAPIBridge.instance.init(),
+      UIDManager.instance.init(),
     ]);
   }
 

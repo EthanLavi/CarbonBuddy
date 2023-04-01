@@ -1,4 +1,5 @@
 import 'package:eat_neat/pages/home.dart';
+import 'package:eat_neat/pages/infer_image.dart';
 import 'package:eat_neat/pages/load_image.dart';
 import 'package:flutter/material.dart';
 import 'models/helper/theme.dart';
@@ -28,10 +29,11 @@ class CarbonBuddy extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: ColorThemes.secondayColor), // create default color scheme
           fontFamily: 'Lato', // set font
         ),
-        initialRoute: '/', // starting route for navigation. starting at /auth because we are pretending we are authenticated
+        initialRoute: '/',
         routes: {
           '/': (context) => const SplashHome(),
-          '/image': (context) => const QueryPhoto(), // After-auth page is the message board
+          '/image': (context) => const QueryPhoto(),
+          '/image/infer': (context) => const InferencePage(),
         },
       ),
     );

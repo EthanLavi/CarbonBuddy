@@ -1,9 +1,18 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
+
+class UserImage {
+  Uint8List imgBytes;
+  String? imgType;
+
+  UserImage(this.imgBytes, this.imgType);
+}
 
 class QueryPhoto extends StatefulWidget {
   const QueryPhoto({super.key});
@@ -13,6 +22,7 @@ class QueryPhoto extends StatefulWidget {
 }
 
 class _QueryPhotoState extends State<QueryPhoto> {
+  Uint8List? _imageData;
   CameraController? _controller;
   String? _imagePath;
 
@@ -31,6 +41,7 @@ class _QueryPhotoState extends State<QueryPhoto> {
 
     // Get a camera
     XFile image = await controller.takePicture();
+    _imageData = await image.readAsBytes();
     setState(() {
       _imagePath = image.path;
     });
@@ -62,13 +73,35 @@ class _QueryPhotoState extends State<QueryPhoto> {
           bottom: 40,
           left: 40,
           right: 40,
-          child: IconButton(
-              icon: const Icon(Icons.camera_alt),
-              onPressed: () async {
-                if (_controller != null) {
-                  await takePicture(_controller!);
-                }
-              }),
+          child: Row(
+            children: [
+              IconButton(
+                  icon: const Icon(Icons.camera_alt),
+                  onPressed: () async {
+                    if (_controller != null) {
+                      await takePicture(_controller!);
+                    }
+                  }),
+              _imagePath != null
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          _imagePath = "";
+                        });
+                      },
+                      child: const Text("Retake-Image"))
+                  : const SizedBox(),
+              _imagePath != null
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        if (_imageData != null) { // safety check, although not explicitly necessary
+                          Navigator.of(context).pushNamed("/image/infer", arguments: UserImage(_imageData!, lookupMimeType(_imagePath!)));
+                        }
+                      },
+                      child: const Text("Continue"))
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ]),
     );
