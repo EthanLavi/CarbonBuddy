@@ -1,7 +1,8 @@
 import 'package:eat_neat/models/sustainability_query/sus.dart';
 
 void main() {
-  print('Nathan tests:');
+  // Sustainability s = Sustainability.getInstance();
+  // print(s);
   String test1 = "chicken rice broccoli kale spinach apple";
   String test2 = "beef pork butter";
   String test3 = "apple carrot cheese";
