@@ -8,24 +8,29 @@ class FoodRating {
   List<Ingredient> ingredients = List.empty(growable: true);
   String grade = ''; // a letter grade
   double score = 1; // some value between 0 and 1
+  double total = 0; // total co2 value
   List<String> suggestions = List.empty(growable: true);
 
-  factory FoodRating(String data) {
+  factory FoodRating.string(String data) {
     Sustainability sus = Sustainability.getInstance();
     return FoodRating.ing(sus.stringToIngredientList(data));
   }
 
+  factory FoodRating.list(List<String> data) {
+    Sustainability sus = Sustainability.getInstance();
+    return FoodRating.ing(sus.stringListToIngredientList(data));
+  }
+
   FoodRating.ing(this.ingredients) {
     int totalServings = 0;
-    double totalImpact = 0;
     for (var i in ingredients) {
       totalServings += i.servings;
       double impact = i.servings *
           (i.local ? i.co2local : i.co2) *
           (i.seasonal ? SEASONAL_MOD : 1);
-      totalImpact += impact;
+      total += impact;
     }
-    score = (totalServings == 0 ? 0 : totalImpact / totalServings) / 24;
+    score = (totalServings == 0 ? 0 : total / totalServings) / 24;
     _assignGrade();
     _assignSuggestions();
   }
