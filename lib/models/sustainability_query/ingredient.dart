@@ -4,12 +4,7 @@ class Ingredient {
   bool local = false, seasonal = false;
   int servings = 1;
 
-  Ingredient(String name, double co2, double co2local, String category) {
-    this.name = name;
-    this.co2 = co2;
-    this.co2local = co2local;
-    this.category = category;
-  }
+  Ingredient(this.name, this.co2, this.co2local, this.category);
 
   @override
   String toString() {

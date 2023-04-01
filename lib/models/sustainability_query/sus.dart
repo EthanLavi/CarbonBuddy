@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'ingredient.dart';
+import 'quiz.dart';
 
 class FoodRating {
   final SEASONAL_MOD = .90;
@@ -83,9 +84,9 @@ class Sustainability {
       'dairy',
       'fruit',
       'grain',
-      'meatEggs',
+      'meat',
       'seafood',
-      'veggie',
+      'vegetable',
       'misc'
     }) {
       _ingredients.addAll(_readCSV('$pathToAssets$fname.csv', fname));
@@ -122,9 +123,61 @@ class Sustainability {
     for (int i = 0; i < tokens.length; i++) {
       String word = tokens[i];
       if (_ingredients.containsKey(word)) {
-        foodData.add(_ingredients[word]!);
+        Ingredient i = _ingredients[word]!;
+        foodData.add(i);
       }
     }
+
     return foodData;
+  }
+
+  // parse a string for words that appear in the csv files
+  // and return a list of ingredient objects created
+  stringListToIngredientList(List<String> data) {
+    List<Ingredient> foodData = List.empty(growable: true);
+
+    for (int i = 0; i < data.length; i++) {
+      String word = data[i];
+      if (_ingredients.containsKey(word)) {
+        Ingredient i = _ingredients[word]!;
+        foodData.add(i);
+      }
+    }
+
+    return foodData;
+  }
+
+  // takes a list of strings that are either ingredients
+  // or categories, and returns a list of question objects
+  generateQuestions(List<String> data) {
+    List<Question> questions = List.empty(growable: true);
+
+    Map<String, Category> categories = {
+      'meat': Category('meat'),
+      'grain': Category('grain'),
+      'seafood': Category('seafood'),
+      'vegetable': Category('vegetable'),
+      'fruit': Category('fruit'),
+      'dairy': Category('dairy')
+    };
+
+    for (int i = 0; i < data.length; i++) {
+      String word = data[i];
+      if (_ingredients.containsKey(word)) {
+        Ingredient i = _ingredients[word]!;
+        categories[i.category]!.instanceof = true;
+        categories[i.category]!.ingredients.add(i);
+      }
+      if (categories.containsKey(word)) {
+        categories[word]!.mentioned = true;
+      }
+    }
+
+    for (var cat in categories.values) {
+      if (cat.mentioned && !cat.instanceof) {
+        questions.add(Question(cat));
+      }
+    }
+    return questions;
   }
 }
