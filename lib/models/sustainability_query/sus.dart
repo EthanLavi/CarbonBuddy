@@ -10,7 +10,12 @@ class FoodRating {
   double score = 1; // some value between 0 and 1
   List<String> suggestions = List.empty();
 
-  FoodRating(List<Ingredient> ingredients) {
+  FoodRating(String data) {
+    Sustainability sus = Sustainability.getInstance();
+    FoodRating.ing(sus.stringToIngredientList(data));
+  }
+
+  FoodRating.ing(List<Ingredient> ingredients) {
     this.ingredients = ingredients;
     int totalServings = 0;
     double totalImpact = 0;
@@ -21,14 +26,41 @@ class FoodRating {
           (i.seasonal ? SEASONAL_MOD : 1);
       totalImpact += impact;
     }
+    score = (totalServings == 0 ? 0 : totalImpact / totalServings);
+    _assignGrade();
+    _assignSuggestions();
+  }
+
+  _assignGrade() {
+    if (score < .2) {
+      grade = 'A';
+    } else if (score < .4) {
+      grade = 'B';
+    } else if (score < .6) {
+      grade = 'C';
+    } else if (score < .8) {
+      grade = 'D';
+    } else {
+      grade = 'F';
+    }
+  }
+
+  _assignSuggestions() {
+    suggestions.add(
+        "Way to eat! I hope someone adds some nice suggestions to help you eat more sustainably");
   }
 }
 
-class Sustainibility {
-  Map<String, Ingredient> _ingredients = new Map();
+class Sustainability {
+  Map<String, Ingredient> _ingredients = Map();
+  static Sustainability _instance = Sustainability._();
+
+  static getInstance() {
+    return _instance;
+  }
 
   // initialize the ingredient list
-  Sustainibility() {
+  Sustainability._() {
     _readAllCSV();
   }
 
@@ -43,13 +75,13 @@ class Sustainibility {
       'seafood',
       'veggie'
     }) {
-      _ingredients.addAll(_readCSV(pathToAssets + fname + '.csv', fname));
+      _ingredients.addAll(_readCSV('$pathToAssets$fname.csv', fname));
     }
   }
 
   // Read a csv file and return a map of String->Ingredient
   _readCSV(String filename, String category) async {
-    Map<String, Ingredient> ingredients = new Map();
+    Map<String, Ingredient> ingredients = Map();
     final file = File(filename);
     Stream<String> lines = file
         .openRead()
@@ -61,7 +93,7 @@ class Sustainibility {
         String iName = tokens.first;
         double ico2 = double.parse(tokens.elementAt(1));
         double ico2local = double.parse(tokens.last);
-        Ingredient ingr = new Ingredient(iName, ico2, ico2local, category);
+        Ingredient ingr = Ingredient(iName, ico2, ico2local, category);
         ingredients[iName] = ingr;
       }
       return ingredients;
@@ -74,9 +106,9 @@ class Sustainibility {
   // parse a string for words that appear in the csv files
   // and return a list of ingredient objects created
   stringToIngredientList(String data) {
-    List<Ingredient> foodData = new List.empty();
+    List<Ingredient> foodData = List.empty();
     data = data.toLowerCase();
-    List<String> tokens = data.split(new RegExp('\W'));
+    List<String> tokens = data.split(RegExp('\W'));
 
     for (int i = 0; i < tokens.length; i++) {
       String word = tokens[i];

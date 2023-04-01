@@ -10,4 +10,9 @@ class Ingredient {
     this.co2local = co2local;
     this.category = category;
   }
+
+  @override
+  String toString() {
+    return '$name  CO2 emmisions: $co2:$co2local\tcategory:$category';
+  }
 }
