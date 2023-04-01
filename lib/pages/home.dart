@@ -1,4 +1,5 @@
 import 'package:eat_neat/models/helper/theme.dart';
+import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
@@ -11,6 +12,7 @@ class SplashHome extends StatelessWidget {
       Future.delayed(const Duration(), () async {
         CameraSingleton.instance.camera = await availableCameras();
       }),
+      GoogleAPIBridge.instance.init(),
     ]);
   }
 
@@ -23,11 +25,13 @@ class SplashHome extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Stack(children: [
               Positioned(
-                top: 40,
-                left: 40,
-                right: 40,
-                child: Text("Loading...", style: TextThemes.emphasisText(),)
-              ),
+                  top: 40,
+                  left: 40,
+                  right: 40,
+                  child: Text(
+                    "Loading...",
+                    style: TextThemes.emphasisText(),
+                  )),
               const Positioned(
                 top: 0,
                 bottom: 0,
