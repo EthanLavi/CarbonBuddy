@@ -68,7 +68,7 @@ class SplashHome extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 image: const DecorationImage(
-                                    image: AssetImage("images/burger.jpg"),
+                                    image: AssetImage("assets/images/burger.jpg"),
                                     fit: BoxFit.cover)),
                             child: Center(
                                 child: Container(
@@ -88,7 +88,7 @@ class SplashHome extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 image: const DecorationImage(
-                                    image: AssetImage("images/nutrition.jpeg"),
+                                    image: AssetImage("assets/images/nutrition.jpeg"),
                                     fit: BoxFit.cover)),
                             child: Center(
                                 child: Container(
@@ -109,7 +109,7 @@ class SplashHome extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 image: const DecorationImage(
                                     image:
-                                        AssetImage("images/shopping-list.jpg"),
+                                        AssetImage("assets/images/shopping-list.jpg"),
                                     fit: BoxFit.cover)),
                             child: Center(
                                 child: Container(
