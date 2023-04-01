@@ -1,5 +1,6 @@
 import 'package:eat_neat/pages/home.dart';
 import 'package:eat_neat/pages/load_image.dart';
+import 'package:eat_neat/pages/recipe.dart';
 import 'package:flutter/material.dart';
 import 'models/helper/theme.dart';
 
@@ -22,16 +23,20 @@ class CarbonBuddy extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // Hide debug banner
-        title: 'Carbon Buddy', // Title of the app
+        title: 'Eat Neat', // Title of the app
         theme: ThemeData(
-          scaffoldBackgroundColor: ColorThemes.lightPrimaryColor, // background color
-          colorScheme: ColorScheme.fromSeed(seedColor: ColorThemes.secondayColor), // create default color scheme
+          scaffoldBackgroundColor: const Color(0xffF4F4F4), // background color
+          colorScheme: ColorScheme.fromSeed(
+              seedColor:
+                  ColorThemes.secondayColor), // create default color scheme
           fontFamily: 'Lato', // set font
         ),
-        initialRoute: '/', // starting route for navigation. starting at /auth because we are pretending we are authenticated
+        initialRoute:
+            '/', // starting route for navigation. starting at /auth because we are pretending we are authenticated
         routes: {
-          '/': (context) => const SplashHome(),
-          '/image': (context) => const QueryPhoto(), // After-auth page is the message board
+          '/': (context) => const RecipePage(),
+          '/image': (context) =>
+              const QueryPhoto(), // After-auth page is the message board
         },
       ),
     );
