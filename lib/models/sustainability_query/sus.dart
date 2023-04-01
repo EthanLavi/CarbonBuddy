@@ -44,8 +44,22 @@ class FoodRating {
   }
 
   _assignSuggestions() {
-    suggestions.add(
-        "Way to eat! I hope someone adds some nice suggestions to help you eat more sustainably");
+    if (score < .2) {
+      suggestions.add(
+          "Good job eating sustainably! Remember to minimize food waste by saving your leftovers.");
+    } else if (score < .4) {
+      suggestions.add(
+          "Buying food locally is a great way to minimize the transportation emissions associated with you getting your food.");
+    } else if (score < .6) {
+      suggestions
+          .add("Try some plant based subsitutes for meat and dairy products!");
+    } else if (score < .8) {
+      suggestions
+          .add("Try eating foods with larger impacts in small portions.");
+    } else {
+      suggestions.add(
+          "Eating sustainably overlaps with eating healthy! Prioritize fresh fruits and vegetables");
+    }
   }
 }
 
@@ -71,7 +85,8 @@ class Sustainability {
       'grain',
       'meatEggs',
       'seafood',
-      'veggie'
+      'veggie',
+      'misc'
     }) {
       _ingredients.addAll(_readCSV('$pathToAssets$fname.csv', fname));
     }

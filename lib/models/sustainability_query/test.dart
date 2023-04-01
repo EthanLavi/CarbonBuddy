@@ -16,5 +16,6 @@ void test(String s) {
   FoodRating fr = FoodRating(s);
   double score = fr.score;
   String grade = fr.grade;
-  print('score: $score\tgrade:$grade');
+  String su = fr.suggestions.first;
+  print('score: $score\tgrade:$grade\tsuggests:$su');
 }
