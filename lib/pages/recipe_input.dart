@@ -1,3 +1,4 @@
+import 'package:eat_neat/models/sustainability_query/sus.dart';
 import 'package:flutter/material.dart';
 
 class RecipeInputPage extends StatelessWidget {
@@ -66,7 +67,8 @@ class _RecipeFormState extends State<RecipeForm> {
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(inputController.text);
+          FoodRating rating = FoodRating.string(inputController.text);
+          Navigator.of(context).pushNamed("/recipe", arguments: rating);
         },
         backgroundColor: Colors.green[400],
         child: const Icon(Icons.arrow_forward_ios),

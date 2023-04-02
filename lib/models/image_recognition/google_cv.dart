@@ -86,6 +86,7 @@ class GoogleAPIBridge {
       return tokens;
     } else {
       List<String> data = [];
+      print(body);
       try {
         for (Map<String, dynamic> e in body['responses'][0]['labelAnnotations']) {
           data.add(e['description']);

@@ -6,10 +6,15 @@ import 'package:eat_neat/pages/ingredients.dart';
 import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:eat_neat/pages/score.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'models/helper/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   runApp(const CarbonBuddy());
 }
 

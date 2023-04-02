@@ -57,7 +57,6 @@ getIngredientListFromID(String id) async {
   if (result.hasException) {
     print(result.exception.toString());
   }
-  print(result.data!["recipe"]["ingredientLines"].runtimeType);
 
   return result.data!["recipe"]["ingredientLines"];
 }

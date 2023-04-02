@@ -1,4 +1,5 @@
 import 'package:eat_neat/models/sustainability_query/ingredient.dart';
+import 'package:eat_neat/models/sustainability_query/sus.dart';
 import 'package:flutter/material.dart';
 
 class LocalSourcedPage extends StatefulWidget {
@@ -9,7 +10,7 @@ class LocalSourcedPage extends StatefulWidget {
 }
 
 class _LocalSourcedPageState extends State<LocalSourcedPage> {
-  List<Ingredient> ingredients = [];
+  FoodRating? rating;
 
   @override
   void initState() {
@@ -18,13 +19,30 @@ class _LocalSourcedPageState extends State<LocalSourcedPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (ModalRoute.of(context)!.settings.arguments != null && ingredients.isEmpty) ingredients = ModalRoute.of(context)!.settings.arguments as List<Ingredient>;
+    if (ModalRoute.of(context)!.settings.arguments != null && rating == null) rating = ModalRoute.of(context)!.settings.arguments as FoodRating;
+    if (rating == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("Ingredients"), backgroundColor: Colors.blueGrey),
+      );
+    }
+
+    List<Ingredient> ingredients = rating!.ingredients.toList();
+
     ingredients.sort((Ingredient i1, Ingredient i2) => i1.category.compareTo(i2.category));
 
     String lastCategory = "";
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Ingredients")),
+      appBar: AppBar(
+        title: const Text("Ingredients"),
+        backgroundColor: Colors.blueGrey,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.settings.name != "/image/infer" && route.settings.name != "/recipe");
+          },
+        ),
+      ),
       body: Stack(children: [
         Positioned(
           top: 16,
@@ -83,7 +101,7 @@ class _LocalSourcedPageState extends State<LocalSourcedPage> {
                             value: e.local,
                             onChanged: (bool? newValue) {
                               setState(() {
-                                e.local = newValue ?? false;
+                                e.local = newValue!;
                               });
                             })
                       ],
@@ -94,7 +112,10 @@ class _LocalSourcedPageState extends State<LocalSourcedPage> {
         ),
       ]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          FoodRating ratingNew = FoodRating.ing(ingredients.toSet());
+          Navigator.of(context).pushNamed("/score", arguments: ratingNew);
+        },
         backgroundColor: Colors.green[400],
         child: const Icon(Icons.arrow_forward_ios),
       ),

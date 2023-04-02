@@ -1,6 +1,7 @@
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:eat_neat/models/image_recognition/uid.dart';
+import 'package:eat_neat/models/sustainability_query/sus.dart';
 import 'package:flutter/material.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,6 +20,7 @@ class SplashHome extends StatelessWidget {
       CameraSingleton.instance.init(),
       GoogleAPIBridge.instance.init(),
       UIDManager.instance.init(),
+      Sustainability.getInstance().init(),
       Permission.camera.request(),
     ]);
   }
@@ -35,6 +37,7 @@ class SplashHome extends StatelessWidget {
                   top: 40,
                   left: 40,
                   right: 40,
+                  bottom: 0,
                   child: Text(
                     "Loading...",
                     style: TextThemes.emphasisText(),
@@ -51,11 +54,12 @@ class SplashHome extends StatelessWidget {
             return Stack(children: [
               Positioned(
                   top: 59,
-                  bottom: 34,
+                  bottom: 0,
                   left: 10,
                   right: 10,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Text(
                           "Welcome!",

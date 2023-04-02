@@ -1,6 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:pluralize/pluralize.dart';
+
 import 'ingredient.dart';
 import 'quiz.dart';
 import 'recipes.dart';
@@ -21,22 +24,20 @@ class FoodRating {
   }
 
   // this is probably the one you'll want to use. Checks for recipe names
-  static getRatingFromList(List<String> data) async {
+  static Future<FoodRating> getRatingFromList(List<String> data) async {
     Sustainability sus = Sustainability.getInstance();
     for (var str in data) {
-      if (sus.isRecipe(str)) {
-        return FoodRating.listMulti(
-            await getIngredientListFromID(await recipeSearch(str)));
+      if (sus.isRecipe(str.toLowerCase())) {
+        return FoodRating.listMulti(await getIngredientListFromID(await recipeSearch(str)));
       }
     }
     return FoodRating.ing(sus.stringListToIngredientList(data));
   }
 
   // this is probably the one you'll want to use. Checks for recipe names
-  static getRatingFromDishName(String data) async {
+  static Future<FoodRating> getRatingFromDishName(String data) async {
     Sustainability sus = Sustainability.getInstance();
-    return FoodRating.listMulti(
-        await getIngredientListFromID(await recipeSearch(data)));
+    return FoodRating.listMulti(await getIngredientListFromID(await recipeSearch(data)));
   }
 
   factory FoodRating.listMulti(List<Object?> data) {
@@ -48,9 +49,7 @@ class FoodRating {
     int totalServings = 0;
     for (var i in ingredients) {
       totalServings += i.servings;
-      double impact = i.servings *
-          (i.local ? i.co2local : i.co2) *
-          (i.seasonal ? SEASONAL_MOD : 1);
+      double impact = i.servings * (i.local ? i.co2local : i.co2) * (i.seasonal ? SEASONAL_MOD : 1);
       total += impact;
     }
     score = (totalServings == 0 ? 0 : total / totalServings) / ALL_FOOD_DIVIDE;
@@ -74,20 +73,15 @@ class FoodRating {
 
   _assignSuggestions() {
     if (score < .2) {
-      suggestions.add(
-          "Good job eating sustainably! Remember to minimize food waste by saving your leftovers.");
+      suggestions.add("Good job eating sustainably! Remember to minimize food waste by saving your leftovers.");
     } else if (score < .4) {
-      suggestions.add(
-          "Buying food locally is a great way to minimize the transportation emissions associated with you getting your food.");
+      suggestions.add("Buying food locally is a great way to minimize the transportation emissions associated with you getting your food.");
     } else if (score < .6) {
-      suggestions
-          .add("Try some plant based subsitutes for meat and dairy products!");
+      suggestions.add("Try some plant based subsitutes for meat and dairy products!");
     } else if (score < .8) {
-      suggestions
-          .add("Try eating foods with larger impacts in small portions.");
+      suggestions.add("Try eating foods with larger impacts in small portions.");
     } else {
-      suggestions.add(
-          "Eating sustainably overlaps with eating healthy! Prioritize fresh fruits and vegetables");
+      suggestions.add("Eating sustainably overlaps with eating healthy! Prioritize fresh fruits and vegetables");
     }
   }
 }
@@ -102,17 +96,20 @@ class Sustainability {
   }
 
   // initialize the ingredient list
-  Sustainability._() {
-    _readAllCSV();
-    _readRecipes();
+  Sustainability._();
+
+  Future<void> init() async {
+    await _readAllCSV();
+    await _readRecipes();
   }
 
-  _readRecipes() {
-    final file = File("../../../assets/dishes.txt");
-    List<String> lines = file.readAsLinesSync();
+  Future<void> _readRecipes() async {
+    final file = await rootBundle.loadString("assets/dishes.txt");
+    List<String> lines = file.split(RegExp("\n"));
     try {
       for (var line in lines) {
-        _recipes.add(line);
+        if (line == "") continue;
+        _recipes.add(line.replaceAll(RegExp("\n"), ""));
       }
     } catch (e) {
       print('Error: $e');
@@ -120,32 +117,34 @@ class Sustainability {
   }
 
   // read all of our csv files and store into _ingredients
-  _readAllCSV() {
-    String pathToAssets = "../../../assets/";
-    for (var fname in {
-      'dairy',
-      'fruit',
-      'grain',
-      'meat',
-      'seafood',
-      'vegetable',
-      'misc'
-    }) {
-      _ingredients.addAll(_readCSV('$pathToAssets$fname.csv', fname));
+  Future<void> _readAllCSV() async {
+    String pathToAssets = "assets/";
+    Map<String, String> nameMapper = {
+      'dairy': 'Dairy Products',
+      'fruit': 'Fruit',
+      'grain': 'Grain & Legumes',
+      'meat': 'Meat & Eggs',
+      'seafood': 'Seafood',
+      'vegetable': 'Produce',
+      'misc': 'Miscellaneous',
+    };
+    for (var fname in {'dairy', 'fruit', 'grain', 'meat', 'seafood', 'vegetable', 'misc'}) {
+      _ingredients.addAll(await _readCSV('$pathToAssets$fname.csv', nameMapper[fname] ?? 'Miscellaneous'));
     }
   }
 
   // Read a csv file and return a map of String->Ingredient
-  _readCSV(String filename, String category) {
+  Future<Map<String, Ingredient>> _readCSV(String filename, String category) async {
     Map<String, Ingredient> ingredients = {};
-    final file = File(filename);
-    List<String> lines = file.readAsLinesSync();
+    final file = await rootBundle.loadString(filename);
+    List<String> lines = file.split(RegExp("\n"));
     try {
       for (var line in lines) {
+        if (line == "") continue;
         List<String> tokens = line.split(',');
         String iName = tokens.first;
-        double ico2 = double.parse(tokens.elementAt(1));
-        double ico2local = double.parse(tokens.last);
+        double ico2local = double.parse(tokens.elementAt(1));
+        double ico2 = double.parse(tokens.last);
         Ingredient ingr = Ingredient(iName, ico2, ico2local, category);
         ingredients[iName] = ingr;
       }
@@ -161,9 +160,8 @@ class Sustainability {
     Set<Ingredient> foodData = {};
     data = data.toLowerCase();
     List<String> tokens = data.split(RegExp('\\W'));
-
     for (int i = 0; i < tokens.length; i++) {
-      String word = tokens[i];
+      String word = Pluralize().singular(tokens[i]);
       if (_ingredients.containsKey(word)) {
         Ingredient i = _ingredients[word]!;
         foodData.add(i);
@@ -179,7 +177,7 @@ class Sustainability {
     Set<Ingredient> foodData = {};
 
     for (int i = 0; i < data.length; i++) {
-      String word = data[i];
+      String word = Pluralize().singular(data[i].toLowerCase());
       if (_ingredients.containsKey(word)) {
         Ingredient i = _ingredients[word]!;
         foodData.add(i);
@@ -204,7 +202,7 @@ class Sustainability {
       List<String> tokens = word.split(RegExp('\\W'));
 
       for (int j = 0; j < tokens.length; j++) {
-        String word = tokens[j];
+        String word = Pluralize().singular(tokens[j]);
         if (_ingredients.containsKey(word)) {
           Ingredient i = _ingredients[word]!;
           foodData.add(i);

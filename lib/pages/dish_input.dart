@@ -1,3 +1,4 @@
+import 'package:eat_neat/models/sustainability_query/sus.dart';
 import 'package:flutter/material.dart';
 
 class DishInputPage extends StatelessWidget {
@@ -33,6 +34,8 @@ class DishForm extends StatefulWidget {
 class _DishFormState extends State<DishForm> {
   final inputController = TextEditingController();
 
+  bool stopper = true;
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -64,8 +67,14 @@ class _DishFormState extends State<DishForm> {
             ]))
       ]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(inputController.text);
+        onPressed: () async {
+          if (stopper) {
+            stopper = false;
+            NavigatorState state = Navigator.of(context);
+            FoodRating rating = await FoodRating.getRatingFromDishName(inputController.text);
+            state.pushNamed("/recipe", arguments: rating);
+            stopper = true;
+          }
         },
         backgroundColor: Colors.green[400],
         child: const Icon(Icons.arrow_forward_ios),
