@@ -26,7 +26,7 @@ class CarbonBuddy extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // Hide debug banner
-        title: 'Eat Neat', // Title of the app
+        title: 'EatNeat', // Title of the app
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xffF4F4F4), // background color
           colorScheme: ColorScheme.fromSeed(
