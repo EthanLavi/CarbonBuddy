@@ -30,14 +30,14 @@ void test(String s) {
   print('score: $score\tgrade:$grade\tsuggests:$su');
 }
 
-void testl(List<String> s) {
+Future<void> testl(List<String> s) async {
   print('rating for: $s');
   Sustainability sus = Sustainability.getInstance();
 
   List<Question> qs = sus.generateQuestions(s);
   print(qs.length);
 
-  FoodRating fr = FoodRating.list(s);
+  FoodRating fr = await FoodRating.getRatingFromList(s);
   double score = fr.score;
   String grade = fr.grade;
   String su = fr.suggestions.first;
