@@ -23,12 +23,14 @@ class RecipeForm extends StatefulWidget {
 class _RecipeFormState extends State<RecipeForm> {
   final inputController = TextEditingController();
 
+  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     inputController.dispose();
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [

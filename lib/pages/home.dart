@@ -60,7 +60,7 @@ class SplashHome extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 50,
-                              fontStyle: FontStyle.italic,
+                              //fontStyle: FontStyle.italic,
                               fontFamily: "SignPainter"),
                         ),
                         const SizedBox(height: 25),
@@ -69,11 +69,20 @@ class SplashHome extends StatelessWidget {
                             height: 100,
                             width: 350,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/burger.jpg"),
-                                    fit: BoxFit.cover)),
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(
+                                  image: AssetImage("assets/images/burger.jpg"),
+                                  fit: BoxFit.cover),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.15),
+                                  spreadRadius: 5,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
                             child: Center(
                                 child: Container(
                                     padding: const EdgeInsets.all(7.0),
@@ -94,7 +103,16 @@ class SplashHome extends StatelessWidget {
                                 image: const DecorationImage(
                                     image: AssetImage(
                                         "assets/images/nutrition.jpeg"),
-                                    fit: BoxFit.cover)),
+                                    fit: BoxFit.cover),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.15),
+                                    spreadRadius: 5,
+                                    blurRadius: 5,
+                                    offset: const Offset(
+                                        0, 3), // changes position of shadow
+                                  )
+                                ]),
                             child: Center(
                                 child: Container(
                                     padding: const EdgeInsets.all(7.0),
@@ -108,7 +126,7 @@ class SplashHome extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           InputChip(
-                              backgroundColor: Colors.transparent,
+                              backgroundColor: const Color(0xffF4F4F4),
                               label: Container(
                                 height: 100,
                                 width: 350,
@@ -117,7 +135,16 @@ class SplashHome extends StatelessWidget {
                                     image: const DecorationImage(
                                         image: AssetImage(
                                             "assets/images/shopping-list.jpg"),
-                                        fit: BoxFit.cover)),
+                                        fit: BoxFit.cover),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.15),
+                                        spreadRadius: 5,
+                                        blurRadius: 5,
+                                        offset: const Offset(
+                                            0, 3), // changes position of shadow
+                                      )
+                                    ]),
                                 child: Center(
                                     child: Container(
                                         padding: const EdgeInsets.all(7.0),
