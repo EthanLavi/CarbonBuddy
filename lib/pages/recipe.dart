@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+class IngredientsLocallySourced extends StatefulWidget {
+  const IngredientsLocallySourced({super.key});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<IngredientsLocallySourced> createState() => _IngredientsLocallySourcedState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _IngredientsLocallySourcedState extends State<IngredientsLocallySourced> {
   bool isChecked = false;
 
   @override
@@ -94,7 +94,7 @@ class RecipePage extends StatelessWidget {
                   Row(children: const [
                     Text("Dairy", style: TextStyle(fontSize: 20)),
                     Spacer(),
-                    MyStatefulWidget()
+                    IngredientsLocallySourced()
                   ]),
                   const SizedBox(height: 5),
                   const Divider(color: Color.fromARGB(150, 170, 170, 170))
@@ -111,7 +111,7 @@ class RecipePage extends StatelessWidget {
                   Row(children: const [
                     Text("Seafood", style: TextStyle(fontSize: 20)),
                     Spacer(),
-                    MyStatefulWidget()
+                    IngredientsLocallySourced()
                   ]),
                   const SizedBox(height: 5),
                   const Divider(color: Color.fromARGB(150, 170, 170, 170))
@@ -128,7 +128,7 @@ class RecipePage extends StatelessWidget {
                   Row(children: const [
                     Text("Produce", style: TextStyle(fontSize: 20)),
                     Spacer(),
-                    MyStatefulWidget()
+                    IngredientsLocallySourced()
                   ]),
                   const SizedBox(height: 5),
                   const Divider(color: Color.fromARGB(150, 170, 170, 170))

@@ -36,6 +36,7 @@ class CarbonBuddy extends StatelessWidget {
         routes: {
           '/': (context) => const SplashHome(),
           '/image': (context) => const QueryPhoto(),
+          '/recipe': (context) => const Placeholder(),
           '/image/infer': (context) => const InferencePage(),
         },
       ),

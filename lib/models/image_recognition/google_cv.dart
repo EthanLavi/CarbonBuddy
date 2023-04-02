@@ -1,27 +1,37 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:http/http.dart';
-import 'package:eat_neat/models/image_recognition/uid.dart';
-import 'package:googleapis_auth/auth_io.dart' as auth;
+
+import 'package:flutter/services.dart';
 import 'package:gcloud/storage.dart';
+import 'package:googleapis_auth/auth_io.dart' as auth;
+import 'package:http/http.dart';
 
-String access_token =
-    "ya29.a0Ael9sCMpiGG3eYWvYtQiiHRo9za4eW5iJMaGGmSc0_fdjuvEwg1OS9UhDreSDh4_Ud9USgs8HaCIgL3U3r_Wpo2QiR6TvUeH6sSdY9vDDCtFFKzYkm2Dmkap7y1AIxUYHs4fwRbGMudtrrZsb9CVVmzI0v9YyQt3S1wcaCgYKAb4SARISFQF4udJh_5xXOwe2YWo9A1Xz4-0MaQ0171";
+import 'package:eat_neat/models/image_recognition/uid.dart';
 
-enum DetectionType { text, food }
+enum DetectionType { text, food, recipe }
 
 class GoogleAPIBridge {
   static GoogleAPIBridge? _instance;
   late auth.ServiceAccountCredentials _credentials;
   late auth.AutoRefreshingAuthClient _client;
 
+  late auth.ServiceAccountCredentials _credentialsVision;
+  late auth.AutoRefreshingAuthClient _clientVision;
+
   // Avoid self isntance
   GoogleAPIBridge._();
 
   Future<void> init() async {
-    String json = await File('assets/secrets/eatneat-api-key.json').readAsString();
-    _credentials = auth.ServiceAccountCredentials.fromJson(json);
+    String jsonBucket = await rootBundle.loadString('assets/secrets/eatneat-api-key.json');
+    String jsonVision = await rootBundle.loadString('assets/secrets/eatneat-vision-key.json');
+
+    _credentials = auth.ServiceAccountCredentials.fromJson(jsonBucket);
     _client = await auth.clientViaServiceAccount(_credentials, Storage.SCOPES);
+
+    _credentialsVision = auth.ServiceAccountCredentials.fromJson(jsonVision);
+    _clientVision = await auth.clientViaServiceAccount(_credentialsVision, ["https://www.googleapis.com/auth/cloud-vision"]);
+
   }
 
   static GoogleAPIBridge get instance {
@@ -32,7 +42,7 @@ class GoogleAPIBridge {
   /// Will save the image to the cloud using the user's id
   Future<ObjectInfo> saveImage(Uint8List imgBytes, String? imgType) async {
     Storage storage = Storage(_client, "EatNeat");
-    Bucket bucket = storage.bucket("image_upload_user");
+    Bucket bucket = storage.bucket("eatneatdata");
 
     return await bucket.writeBytes(
       "${UIDManager.instance.userID}.png",
@@ -42,14 +52,15 @@ class GoogleAPIBridge {
   }
 
   Future<List<String>> runInference(DetectionType type) async {
-    Response rep = await post(
+    if (type == DetectionType.recipe) return [];
+
+    Response rep = await _clientVision.post(
       Uri.parse("https://vision.googleapis.com/v1/images:annotate"),
       headers: {
-        'Authorization': 'Bearer $access_token',
         'x-goog-user-project': 'eatneat-382419',
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body: {
+      body: jsonEncode({
         "requests": [
           {
             "image": {
@@ -60,10 +71,10 @@ class GoogleAPIBridge {
             ]
           }
         ]
-      },
+      }),
     );
 
-    Map<String, dynamic> body = rep.body as Map<String, dynamic>;
+    Map<String, dynamic> body = jsonDecode(rep.body) as Map<String, dynamic>;
 
     print(body);
 
@@ -79,7 +90,7 @@ class GoogleAPIBridge {
     } else {
       List<String> data = [];
       try {
-        for(Map<String, dynamic> e in body['responses']['labelAnnotations']){
+        for (Map<String, dynamic> e in body['responses']['labelAnnotations']) {
           data.add(e['description']);
         }
       } on Error {
