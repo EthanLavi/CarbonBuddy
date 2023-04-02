@@ -1,5 +1,5 @@
 # EatNeat
-## by Compiled with Warnings 
+by Compiled with Warnings 
 
 ## Project Description
 EatNeat is a mobile application that allows users to quickly see the carbon footprint of their food.
@@ -20,5 +20,7 @@ they need to work towards sustainability.
 ## Use Instructions
 
 ## Citations
-1. https://docs.flutter.dev/    for general help on building our app
+1. https://docs.flutter.dev/  
 2. https://morioh.com/p/fedbaa06bd10 
+3. https://docs.suggestic.com/graphql/  
+4. https://pub.dev/packages/graphql
