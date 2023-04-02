@@ -1,7 +1,9 @@
+import 'package:eat_neat/pages/dish_input.dart';
 import 'package:eat_neat/pages/home.dart';
 import 'package:eat_neat/pages/infer_image.dart';
 import 'package:eat_neat/pages/load_image.dart';
 import 'package:eat_neat/pages/ingredients.dart';
+import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:eat_neat/pages/score.dart';
 import 'package:flutter/material.dart';
 import 'models/helper/theme.dart';
@@ -25,7 +27,7 @@ class CarbonBuddy extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // Hide debug banner
-        title: 'Eat Neat', // Title of the app
+        title: 'EatNeat', // Title of the app
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xffF4F4F4), // background color
           colorScheme: ColorScheme.fromSeed(
@@ -40,6 +42,8 @@ class CarbonBuddy extends StatelessWidget {
           '/recipe': (context) => const LocalSourcedPage(),
           '/image/infer': (context) => const InferencePage(),
           '/score': (context) => const ScorePage(),
+          '/recipe/input': (context) => const RecipeInputPage(),
+          '/dish/input': (context) => const DishInputPage(),
         },
       ),
     );

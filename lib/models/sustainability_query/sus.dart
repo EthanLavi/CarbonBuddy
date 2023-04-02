@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'ingredient.dart';
 import 'quiz.dart';
+import 'recipes.dart';
 
 class FoodRating {
   final SEASONAL_MOD = .90;
   final ALL_FOOD_DIVIDE = 12;
 
-  List<Ingredient> ingredients = List.empty(growable: true);
+  Set<Ingredient> ingredients = {};
   String grade = ''; // a letter grade
   double score = 1; // some value between 0 and 1
   double total = 0; // total co2 value
@@ -17,8 +18,15 @@ class FoodRating {
     return FoodRating.ing(sus.stringToIngredientList(data));
   }
 
-  factory FoodRating.list(List<String> data) {
+  // this is probably the one you'll want to use. Checks for recipe names
+  static getRatingFromList(List<String> data) async {
     Sustainability sus = Sustainability.getInstance();
+    for (var str in data) {
+      if (sus.isRecipe(str)) {
+        return FoodRating.listMulti(
+            await getIngredientListFromID(await recipeSearch(str)));
+      }
+    }
     return FoodRating.ing(sus.stringListToIngredientList(data));
   }
 
@@ -77,6 +85,7 @@ class FoodRating {
 
 class Sustainability {
   final Map<String, Ingredient> _ingredients = {};
+  final Set<String> _recipes = {};
   static final Sustainability _instance = Sustainability._();
 
   static getInstance() {
@@ -86,6 +95,19 @@ class Sustainability {
   // initialize the ingredient list
   Sustainability._() {
     _readAllCSV();
+    _readRecipes();
+  }
+
+  _readRecipes() {
+    final file = File("../../../assets/dishes.txt");
+    List<String> lines = file.readAsLinesSync();
+    try {
+      for (var line in lines) {
+        _recipes.add(line);
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   // read all of our csv files and store into _ingredients
@@ -127,7 +149,7 @@ class Sustainability {
   // parse a string for words that appear in the csv files
   // and return a list of ingredient objects created
   stringToIngredientList(String data) {
-    List<Ingredient> foodData = List.empty(growable: true);
+    Set<Ingredient> foodData = {};
     data = data.toLowerCase();
     List<String> tokens = data.split(RegExp('\\W'));
 
@@ -145,7 +167,7 @@ class Sustainability {
   // parse a string for words that appear in the csv files
   // and return a list of ingredient objects created
   stringListToIngredientList(List<String> data) {
-    List<Ingredient> foodData = List.empty(growable: true);
+    Set<Ingredient> foodData = {};
 
     for (int i = 0; i < data.length; i++) {
       String word = data[i];
@@ -159,7 +181,7 @@ class Sustainability {
   }
 
   stringListListToIngredientList(List<Object?> data) {
-    List<Ingredient> foodData = List.empty(growable: true);
+    Set<Ingredient> foodData = {};
 
     for (int i = 0; i < data.length; i++) {
       String word;
@@ -216,5 +238,9 @@ class Sustainability {
       }
     }
     return questions;
+  }
+
+  isRecipe(String word) {
+    return _recipes.contains(word);
   }
 }
