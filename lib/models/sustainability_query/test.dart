@@ -1,7 +1,9 @@
 import 'package:eat_neat/models/sustainability_query/quiz.dart';
 import 'package:eat_neat/models/sustainability_query/sus.dart';
 
-void main() {
+import 'recipes.dart';
+
+void main() async {
   // Sustainability s = Sustainability.getInstance();
   // print(s);
   String test1 = "chicken rice broccoli kale spinach apple";
@@ -15,6 +17,8 @@ void main() {
   List<String> test5 = ["meat", "beef", "onion", "potato"];
   testl(test4);
   testl(test5);
+
+  testll(await getIngredientListFromID(await recipeSearch("menemen")));
 }
 
 void test(String s) {
@@ -34,6 +38,16 @@ void testl(List<String> s) {
   print(qs.length);
 
   FoodRating fr = FoodRating.list(s);
+  double score = fr.score;
+  String grade = fr.grade;
+  String su = fr.suggestions.first;
+  print('score: $score\tgrade:$grade\tsuggests:$su');
+}
+
+void testll(List<Object?> s) {
+  print('rating for: $s');
+
+  FoodRating fr = FoodRating.listMulti(s);
   double score = fr.score;
   String grade = fr.grade;
   String su = fr.suggestions.first;
