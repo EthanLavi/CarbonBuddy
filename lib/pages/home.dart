@@ -65,9 +65,7 @@ class SplashHome extends StatelessWidget {
                           "Welcome!",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 50,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: "SignPainter"),
+                              fontSize: 50, fontFamily: "SignPainter"),
                         ),
                         const SizedBox(height: 25),
                         Column(children: [
