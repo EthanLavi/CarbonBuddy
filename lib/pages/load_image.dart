@@ -5,14 +5,16 @@ import 'package:camera/camera.dart';
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
+import 'package:eat_neat/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 
 class UserImage {
   Uint8List imgBytes;
+  DetectionType responseType;
   String? imgType;
 
-  UserImage(this.imgBytes, this.imgType);
+  UserImage(this.imgBytes, this.imgType, this.responseType);
 }
 
 class QueryPhoto extends StatefulWidget {
@@ -33,7 +35,7 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
     CameraDescription? cameraDesc = CameraSingleton.instance.getCamera();
     if (cameraDesc != null) {
       _controller = CameraController(cameraDesc, ResolutionPreset.high);
-       _controller!.addListener(() {
+      _controller!.addListener(() {
         if (mounted) {
           setState(() {});
         }
@@ -84,11 +86,11 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    DetectionType detectionSelected = DetectionType.food;
-    if (ModalRoute.of(context)!.settings.arguments != null) detectionSelected = ModalRoute.of(context)!.settings.arguments as DetectionType;
+    ImagePreference args = ImagePreference("", DetectionType.food);
+    if (ModalRoute.of(context)!.settings.arguments != null) args = ModalRoute.of(context)!.settings.arguments as ImagePreference;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(args.title, style: const TextStyle(fontSize: 14))),
       body: Stack(children: [
         Positioned(
             top: 0,
@@ -141,7 +143,7 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
                       onPressed: () {
                         if (_imageData != null) {
                           // safety check, although not explicitly necessary
-                          Navigator.of(context).pushNamed("/image/infer", arguments: UserImage(_imageData!, lookupMimeType(_imagePath!)));
+                          Navigator.of(context).pushNamed("/image/infer", arguments: UserImage(_imageData!, lookupMimeType(_imagePath!), args.type));
                         }
                       },
                       child: const Text("Continue"))

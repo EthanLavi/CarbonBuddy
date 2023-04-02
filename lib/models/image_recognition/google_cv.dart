@@ -31,7 +31,6 @@ class GoogleAPIBridge {
 
     _credentialsVision = auth.ServiceAccountCredentials.fromJson(jsonVision);
     _clientVision = await auth.clientViaServiceAccount(_credentialsVision, ["https://www.googleapis.com/auth/cloud-vision"]);
-
   }
 
   static GoogleAPIBridge get instance {
@@ -45,7 +44,7 @@ class GoogleAPIBridge {
     Bucket bucket = storage.bucket("eatneatdata");
 
     return await bucket.writeBytes(
-      "${UIDManager.instance.userID}.png",
+      "${UIDManager.instance.userID}.jpeg",
       imgBytes,
       metadata: ObjectMetadata(contentType: imgType),
     );
@@ -64,7 +63,7 @@ class GoogleAPIBridge {
         "requests": [
           {
             "image": {
-              "source": {"imageUri": "gs://eatneatdata/${UIDManager.instance.userID}.jpg"}
+              "source": {"imageUri": "https://storage.googleapis.com/eatneatdata/${UIDManager.instance.userID}.jpeg"}
             },
             "features": [
               {"type": type == DetectionType.text ? "TEXT_DETECTION" : "LABEL_DETECTION"}
@@ -76,21 +75,21 @@ class GoogleAPIBridge {
 
     Map<String, dynamic> body = jsonDecode(rep.body) as Map<String, dynamic>;
 
-    print(body);
-
     if (type == DetectionType.text) {
       String data = "";
       try {
-        data = body['responses']['fullTextAnnotation']['text'];
+        data = body['responses'][0]['textAnnotations'][0]['description'];
       } on Error {
         return [];
       }
-
-      return data.split(RegExp("\\W"));
+      data = data.toLowerCase();
+      List<String> tokens = data.split(RegExp("\\W"));
+      tokens.removeWhere((element) => element == "" || element == " ");
+      return tokens;
     } else {
       List<String> data = [];
       try {
-        for (Map<String, dynamic> e in body['responses']['labelAnnotations']) {
+        for (Map<String, dynamic> e in body['responses'][0]['labelAnnotations']) {
           data.add(e['description']);
         }
       } on Error {

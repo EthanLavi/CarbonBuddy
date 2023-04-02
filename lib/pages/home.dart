@@ -5,6 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+class ImagePreference {
+  String title;
+  DetectionType type;
+  ImagePreference(this.title, this.type);
+}
+
 class SplashHome extends StatelessWidget {
   const SplashHome({super.key});
 
@@ -58,7 +64,7 @@ class SplashHome extends StatelessWidget {
                     Column(children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/image", arguments: DetectionType.food);
+                          Navigator.of(context).pushNamed("/image", arguments: ImagePreference("Take a picture of your meal" , DetectionType.food));
                         },
                         child: Container(
                           height: 100,
@@ -79,7 +85,7 @@ class SplashHome extends StatelessWidget {
                       const SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/image", arguments: DetectionType.text);
+                          Navigator.of(context).pushNamed("/image", arguments: ImagePreference("Take a picture of any ingredient list" , DetectionType.text));
                         },
                         child: Container(
                           height: 100,
