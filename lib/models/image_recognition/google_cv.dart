@@ -86,7 +86,6 @@ class GoogleAPIBridge {
       return tokens;
     } else {
       List<String> data = [];
-      print(body);
       try {
         for (Map<String, dynamic> e in body['responses'][0]['labelAnnotations']) {
           data.add(e['description']);
@@ -98,4 +97,55 @@ class GoogleAPIBridge {
       return data;
     }
   }
+
+  Future<List<String>> runQuickInference(Uint8List data, DetectionType type) async {
+    if (type == DetectionType.recipe) return [];
+
+    Response rep = await _clientVision.post(
+      Uri.parse("https://vision.googleapis.com/v1/images:annotate"),
+      headers: {
+        'x-goog-user-project': 'eatneat-382419',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: jsonEncode({
+        "requests": [
+          {
+            "image": {
+              "content": base64Encode(data).toString()
+            },
+            "features": [
+              {"type": type == DetectionType.text ? "TEXT_DETECTION" : "LABEL_DETECTION"}
+            ]
+          }
+        ]
+      }),
+    );
+
+    Map<String, dynamic> body = jsonDecode(rep.body) as Map<String, dynamic>;
+
+    if (type == DetectionType.text) {
+      String data = "";
+      try {
+        data = body['responses'][0]['textAnnotations'][0]['description'];
+      } on Error {
+        return [];
+      }
+      data = data.toLowerCase();
+      List<String> tokens = data.split(RegExp("\\W"));
+      tokens.removeWhere((element) => element == "" || element == " ");
+      return tokens;
+    } else {
+      List<String> data = [];
+      try {
+        for (Map<String, dynamic> e in body['responses'][0]['labelAnnotations']) {
+          data.add(e['description']);
+        }
+      } on Error {
+        return [];
+      }
+
+      return data;
+    }
+  }
+
 }

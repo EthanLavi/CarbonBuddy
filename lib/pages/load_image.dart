@@ -11,8 +11,8 @@ import 'package:mime/mime.dart';
 
 class UserImage {
   Uint8List imgBytes;
-  DetectionType responseType;
   String? imgType;
+  DetectionType responseType;
 
   UserImage(this.imgBytes, this.imgType, this.responseType);
 }
@@ -34,7 +34,7 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
     super.initState();
     CameraDescription? cameraDesc = CameraSingleton.instance.getCamera();
     if (cameraDesc != null) {
-      _controller = CameraController(cameraDesc, ResolutionPreset.high);
+      _controller = CameraController(cameraDesc, ResolutionPreset.high, imageFormatGroup: Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.yuv420);
       _controller!.addListener(() {
         if (mounted) {
           setState(() {});

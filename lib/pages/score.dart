@@ -45,7 +45,10 @@ class ScorePage extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(children: [
-                          Row(children: [SizedBox(width: (MediaQuery.of(context).size.width - 75) * score), Text("${(score * 100).toStringAsFixed(2)}%")]),
+                          Row(children: [
+                            SizedBox(width: ((MediaQuery.of(context).size.width - 100) * score).clamp(0, MediaQuery.of(context).size.width - 100)),
+                            Text("${(score * 100).clamp(0, 100).toStringAsFixed(2)}%"),
+                          ]),
                           Container(
                               height: 3,
                               width: double.infinity,
@@ -98,7 +101,10 @@ class ScorePage extends StatelessWidget {
                       )),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(rating.suggestions.first, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w300),),
+                    child: Text(
+                      rating.suggestions.first,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
+                    ),
                   )
                 ],
               )),

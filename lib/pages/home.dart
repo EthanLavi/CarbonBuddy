@@ -37,11 +37,12 @@ class SplashHome extends StatelessWidget {
                   top: 40,
                   left: 40,
                   right: 40,
-                  bottom: 0,
-                  child: Text(
+                  bottom: 200,
+                  child: Center(
+                      child: Text(
                     "Loading...",
                     style: TextThemes.emphasisText(),
-                  )),
+                  ))),
               const Positioned(
                 top: 0,
                 bottom: 0,
@@ -53,176 +54,139 @@ class SplashHome extends StatelessWidget {
           } else {
             return Stack(children: [
               Positioned(
-                  top: 59,
-                  bottom: 0,
-                  left: 10,
-                  right: 10,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Welcome!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 50, fontFamily: "SignPainter"),
-                        ),
-                        const SizedBox(height: 25),
-                        Column(children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed("/image",
-                                  arguments: ImagePreference(
-                                      "Take a picture of your meal",
-                                      DetectionType.food));
-                            },
-                            child: Container(
-                              height: 100,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/burger.jpg"),
-                                    fit: BoxFit.cover),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.15),
-                                    spreadRadius: 5,
-                                    blurRadius: 5,
-                                    offset: const Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
+                top: 59,
+                bottom: 0,
+                left: 10,
+                right: 10,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.start, children: [
+                  const Text(
+                    "Welcome!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 50, fontFamily: "SignPainter"),
+                  ),
+                  const SizedBox(height: 25),
+                  Flexible(
+                    child: Column(children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/image", arguments: ImagePreference("Take a picture of your meal", DetectionType.food));
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 350,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: const DecorationImage(image: AssetImage("assets/images/burger.jpg"), fit: BoxFit.cover),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                spreadRadius: 5,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3), // changes position of shadow
                               ),
-                              child: Center(
-                                  child: Container(
-                                      padding: const EdgeInsets.all(7.0),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white60),
-                                      child: const Text(
-                                        "Use a Picture of Food",
-                                        style: TextStyle(fontSize: 24),
-                                      ))),
-                            ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed("/image",
-                                  arguments: ImagePreference(
-                                      "Take a picture of any ingredient list",
-                                      DetectionType.text));
-                            },
-                            child: Container(
-                              height: 100,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/nutrition.jpeg"),
-                                      fit: BoxFit.cover),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.15),
-                                      spreadRadius: 5,
-                                      blurRadius: 5,
-                                      offset: const Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ]),
-                              child: Center(
-                                  child: Container(
-                                      padding: const EdgeInsets.all(7.0),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white60),
-                                      child: const Text(
-                                        "Use Nutrition Facts",
-                                        style: TextStyle(fontSize: 24),
-                                      ))),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed("/recipe/input",
-                                  arguments: DetectionType.text);
-                            },
-                            child: Container(
-                              height: 100,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/shopping-list.jpg"),
-                                      fit: BoxFit.cover),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.15),
-                                      spreadRadius: 5,
-                                      blurRadius: 5,
-                                      offset: const Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ]),
-                              child: Center(
-                                  child: Container(
-                                      padding: const EdgeInsets.all(7.0),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.black12),
-                                      child: const Text(
-                                        "Copy & Paste a Recipe",
-                                        style: TextStyle(fontSize: 24),
-                                      ))),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed("/dish/input",
-                                  arguments: DetectionType.text);
-                            },
-                            child: Container(
-                              height: 100,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/plate.jpeg"),
-                                      fit: BoxFit.cover),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.15),
-                                      spreadRadius: 5,
-                                      blurRadius: 5,
-                                      offset: const Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ]),
-                              child: Center(
-                                  child: Container(
-                                      padding: const EdgeInsets.all(7.0),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white60),
-                                      child: const Text(
-                                        "Input a Recipe Name",
-                                        style: TextStyle(fontSize: 24),
-                                      ))),
-                            ),
-                          )
-                        ])
-                      ]))
+                          child: Center(
+                              child: Container(
+                                  padding: const EdgeInsets.all(7.0),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white60),
+                                  child: const Text(
+                                    "Use a Picture of Food",
+                                    style: TextStyle(fontSize: 24),
+                                  ))),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/image", arguments: ImagePreference("Take a picture of any ingredient list", DetectionType.text));
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 350,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(image: AssetImage("assets/images/nutrition.jpeg"), fit: BoxFit.cover),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.15),
+                                  spreadRadius: 5,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3), // changes position of shadow
+                                ),
+                              ]),
+                          child: Center(
+                              child: Container(
+                                  padding: const EdgeInsets.all(7.0),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white60),
+                                  child: const Text(
+                                    "Use Nutrition Facts",
+                                    style: TextStyle(fontSize: 24),
+                                  ))),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/recipe/input", arguments: DetectionType.text);
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 350,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(image: AssetImage("assets/images/shopping-list.jpg"), fit: BoxFit.cover),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.15),
+                                  spreadRadius: 5,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3), // changes position of shadow
+                                ),
+                              ]),
+                          child: Center(
+                              child: Container(
+                                  padding: const EdgeInsets.all(7.0),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black12),
+                                  child: const Text(
+                                    "Copy & Paste a Recipe",
+                                    style: TextStyle(fontSize: 24),
+                                  ))),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/dish/input", arguments: DetectionType.text);
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 350,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(image: AssetImage("assets/images/plate.jpeg"), fit: BoxFit.cover),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.15),
+                                  spreadRadius: 5,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3), // changes position of shadow
+                                ),
+                              ]),
+                          child: Center(
+                              child: Container(
+                                  padding: const EdgeInsets.all(7.0),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white60),
+                                  child: const Text(
+                                    "Input a Recipe Name",
+                                    style: TextStyle(fontSize: 24),
+                                  ))),
+                        ),
+                      )
+                    ]),
+                  )
+                ]),
+              )
             ]);
           }
         },
