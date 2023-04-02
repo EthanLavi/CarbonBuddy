@@ -126,7 +126,16 @@ class SplashHome extends StatelessWidget {
                                   image: const DecorationImage(
                                       image: AssetImage(
                                           "assets/images/nutrition.jpeg"),
-                                      fit: BoxFit.cover)),
+                                      fit: BoxFit.cover),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.15),
+                                      spreadRadius: 5,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ]),
                               child: Center(
                                   child: Container(
                                       padding: const EdgeInsets.all(7.0),
@@ -154,7 +163,16 @@ class SplashHome extends StatelessWidget {
                                   image: const DecorationImage(
                                       image: AssetImage(
                                           "assets/images/shopping-list.jpg"),
-                                      fit: BoxFit.cover)),
+                                      fit: BoxFit.cover),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.15),
+                                      spreadRadius: 5,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ]),
                               child: Center(
                                   child: Container(
                                       padding: const EdgeInsets.all(7.0),
@@ -164,6 +182,43 @@ class SplashHome extends StatelessWidget {
                                           color: Colors.black12),
                                       child: const Text(
                                         "Copy & Paste a Recipe",
+                                        style: TextStyle(fontSize: 24),
+                                      ))),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/dish/input",
+                                  arguments: DetectionType.text);
+                            },
+                            child: Container(
+                              height: 100,
+                              width: 350,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/plate.jpeg"),
+                                      fit: BoxFit.cover),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.15),
+                                      spreadRadius: 5,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ]),
+                              child: Center(
+                                  child: Container(
+                                      padding: const EdgeInsets.all(7.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white60),
+                                      child: const Text(
+                                        "Input a Recipe Name",
                                         style: TextStyle(fontSize: 24),
                                       ))),
                             ),
