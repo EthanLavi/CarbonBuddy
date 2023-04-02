@@ -11,3 +11,4 @@ class Ingredient {
     return '$name  CO2 emmisions: $co2:$co2local\tcategory:$category';
   }
 }
+

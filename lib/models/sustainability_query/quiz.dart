@@ -10,12 +10,27 @@ class Category {
 }
 
 class Question {
-  String text = "";
+  String text = "", catName = "";
   late List<Ingredient> options;
 
   Question(Category c) {
-    String name = c.name;
-    text = 'We detected a $name, please help us find a specific food.';
+    catName = c.name;
+    text = 'We detected a $catName, please help us find a specific food.';
     options = c.ingredients;
+  }
+}
+
+class Answer {
+  String catName = "";
+  String ingName = "";
+  Answer(this.catName, this.ingName);
+
+  // use an answer to clarify the ingredients list
+  applyAnswer(List<String> data) {
+    for (int i = 0; i < data.length; i++) {
+      if (data[i] == catName) {
+        data[i] = ingName;
+      }
+    }
   }
 }

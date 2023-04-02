@@ -4,28 +4,39 @@ import 'quiz.dart';
 
 class FoodRating {
   final SEASONAL_MOD = .90;
+  final ALL_FOOD_DIVIDE = 12;
 
   List<Ingredient> ingredients = List.empty(growable: true);
   String grade = ''; // a letter grade
   double score = 1; // some value between 0 and 1
+  double total = 0; // total co2 value
   List<String> suggestions = List.empty(growable: true);
 
-  factory FoodRating(String data) {
+  factory FoodRating.string(String data) {
     Sustainability sus = Sustainability.getInstance();
     return FoodRating.ing(sus.stringToIngredientList(data));
   }
 
+  factory FoodRating.list(List<String> data) {
+    Sustainability sus = Sustainability.getInstance();
+    return FoodRating.ing(sus.stringListToIngredientList(data));
+  }
+
+  factory FoodRating.listMulti(List<Object?> data) {
+    Sustainability sus = Sustainability.getInstance();
+    return FoodRating.ing(sus.stringListListToIngredientList(data));
+  }
+
   FoodRating.ing(this.ingredients) {
     int totalServings = 0;
-    double totalImpact = 0;
     for (var i in ingredients) {
       totalServings += i.servings;
       double impact = i.servings *
           (i.local ? i.co2local : i.co2) *
           (i.seasonal ? SEASONAL_MOD : 1);
-      totalImpact += impact;
+      total += impact;
     }
-    score = (totalServings == 0 ? 0 : totalImpact / totalServings) / 24;
+    score = (totalServings == 0 ? 0 : total / totalServings) / ALL_FOOD_DIVIDE;
     _assignGrade();
     _assignSuggestions();
   }
@@ -141,6 +152,32 @@ class Sustainability {
       if (_ingredients.containsKey(word)) {
         Ingredient i = _ingredients[word]!;
         foodData.add(i);
+      }
+    }
+
+    return foodData;
+  }
+
+  stringListListToIngredientList(List<Object?> data) {
+    List<Ingredient> foodData = List.empty(growable: true);
+
+    for (int i = 0; i < data.length; i++) {
+      String word;
+      if (data[i].runtimeType == String) {
+        word = data[i] as String;
+      } else {
+        continue;
+      }
+
+      word = word.toLowerCase();
+      List<String> tokens = word.split(RegExp('\\W'));
+
+      for (int j = 0; j < tokens.length; j++) {
+        String word = tokens[j];
+        if (_ingredients.containsKey(word)) {
+          Ingredient i = _ingredients[word]!;
+          foodData.add(i);
+        }
       }
     }
 

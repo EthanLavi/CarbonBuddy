@@ -2,6 +2,7 @@ import 'package:eat_neat/pages/home.dart';
 import 'package:eat_neat/pages/infer_image.dart';
 import 'package:eat_neat/pages/load_image.dart';
 import 'package:eat_neat/pages/recipe.dart';
+import 'package:eat_neat/pages/score.dart';
 import 'package:flutter/material.dart';
 import 'models/helper/theme.dart';
 
@@ -38,6 +39,7 @@ class CarbonBuddy extends StatelessWidget {
           '/image': (context) => const QueryPhoto(),
           '/recipe': (context) => const Placeholder(),
           '/image/infer': (context) => const InferencePage(),
+          '/score': (context) => const ScorePage(),
         },
       ),
     );
