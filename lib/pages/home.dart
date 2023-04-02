@@ -1,6 +1,7 @@
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:eat_neat/models/image_recognition/uid.dart';
+import 'package:eat_neat/models/sustainability_query/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -106,7 +107,7 @@ class SplashHome extends StatelessWidget {
                       const SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/recipe", arguments: DetectionType.text);
+                          Navigator.of(context).pushNamed("/recipe", arguments: [Ingredient("Beef", 1, 1, "Meat & Eggs"), Ingredient("Bread", 1, 1, "Grains"), Ingredient("Chicken", 1, 1, "Meat & Eggs"), Ingredient("Milk", 1, 1, "Dairy"), Ingredient("Cheese", 1, 1, "Dairy"), Ingredient("Eggs", 1, 1, "Meat & Eggs")]);
                         },
                         child: Container(
                           height: 100,
