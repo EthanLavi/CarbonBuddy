@@ -19,6 +19,12 @@ they need to work towards sustainability.
 
 ## Use Instructions
 
+```bash
+flutter run
+```
+
+
+
 ## Citations
 1. https://docs.flutter.dev/  
 2. https://morioh.com/p/fedbaa06bd10 
