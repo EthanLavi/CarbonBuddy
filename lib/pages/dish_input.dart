@@ -1,8 +1,7 @@
-import 'package:eat_neat/pages/home.dart';
 import 'package:flutter/material.dart';
 
-class RecipeInputPage extends StatelessWidget {
-  const RecipeInputPage({super.key});
+class DishInputPage extends StatelessWidget {
+  const DishInputPage({super.key});
 
   static TextEditingController recipeController = TextEditingController();
 
@@ -11,7 +10,7 @@ class RecipeInputPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blueGrey,
-          title: const Text("Recipe Input", style: TextStyle(fontSize: 16)),
+          title: const Text("Dish Input", style: TextStyle(fontSize: 16)),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
@@ -19,19 +18,19 @@ class RecipeInputPage extends StatelessWidget {
             },
           ),
         ),
-        body: Stack(children: const [RecipeForm()]));
+        body: Stack(children: const [DishForm()]));
   }
 }
 
 // Define a custom Form widget.
-class RecipeForm extends StatefulWidget {
-  const RecipeForm({super.key});
+class DishForm extends StatefulWidget {
+  const DishForm({super.key});
 
   @override
-  State<RecipeForm> createState() => _RecipeFormState();
+  State<DishForm> createState() => _DishFormState();
 }
 
-class _RecipeFormState extends State<RecipeForm> {
+class _DishFormState extends State<DishForm> {
   final inputController = TextEditingController();
 
   @override
@@ -54,16 +53,15 @@ class _RecipeFormState extends State<RecipeForm> {
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 TextField(
                   controller: inputController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
+                  maxLines: 1,
                   decoration: const InputDecoration(
                     //border: UnderlineInputBorder(),
-                    labelText: 'Potato, tomato, avocado',
+                    labelText: 'Menemen',
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                   ),
                 ),
               ]),
-            ])),
+            ]))
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

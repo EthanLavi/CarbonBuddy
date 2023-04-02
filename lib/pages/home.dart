@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:eat_neat/models/image_recognition/uid.dart';
+import 'package:eat_neat/pages/dish_input.dart';
 import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -153,7 +154,7 @@ class SplashHome extends StatelessWidget {
                                                 BorderRadius.circular(10),
                                             color: Colors.black12),
                                         child: const Text(
-                                          "Recipe",
+                                          "Input a Recipe",
                                           style: TextStyle(fontSize: 24),
                                         ))),
                               ),
@@ -162,6 +163,45 @@ class SplashHome extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const RecipeInputPage()),
+                                  )),
+                          const SizedBox(height: 10),
+                          InputChip(
+                              backgroundColor: const Color(0xffF4F4F4),
+                              label: Container(
+                                height: 100,
+                                width: 350,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/plate.jpeg"),
+                                        fit: BoxFit.cover),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.15),
+                                        spreadRadius: 5,
+                                        blurRadius: 5,
+                                        offset: const Offset(
+                                            0, 3), // changes position of shadow
+                                      )
+                                    ]),
+                                child: Center(
+                                    child: Container(
+                                        padding: const EdgeInsets.all(7.0),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white60),
+                                        child: const Text(
+                                          "Input a Dish Name",
+                                          style: TextStyle(fontSize: 24),
+                                        ))),
+                              ),
+                              onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DishInputPage()),
                                   )),
                         ])
                       ]))

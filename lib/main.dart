@@ -1,3 +1,4 @@
+import 'package:eat_neat/pages/dish_input.dart';
 import 'package:eat_neat/pages/home.dart';
 import 'package:eat_neat/pages/infer_image.dart';
 import 'package:eat_neat/pages/load_image.dart';
@@ -41,6 +42,7 @@ class CarbonBuddy extends StatelessWidget {
           '/image/infer': (context) => const InferencePage(),
           '/score': (context) => const ScorePage(),
           '/recipe/input': (context) => const RecipeInputPage(),
+          '/dish/input': (context) => const DishInputPage(),
         },
       ),
     );
