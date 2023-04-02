@@ -30,6 +30,13 @@ class FoodRating {
     return FoodRating.ing(sus.stringListToIngredientList(data));
   }
 
+  // this is probably the one you'll want to use. Checks for recipe names
+  static getRatingFromDishName(String data) async {
+    Sustainability sus = Sustainability.getInstance();
+    return FoodRating.listMulti(
+        await getIngredientListFromID(await recipeSearch(data)));
+  }
+
   factory FoodRating.listMulti(List<Object?> data) {
     Sustainability sus = Sustainability.getInstance();
     return FoodRating.ing(sus.stringListListToIngredientList(data));
