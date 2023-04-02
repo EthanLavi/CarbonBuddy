@@ -64,8 +64,8 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
       cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
       // Reinitialize the camera with same properties
-      _controller =
-          CameraController(cameraController.description, ResolutionPreset.high);
+      _controller = CameraController(cameraController.description, ResolutionPreset.high,
+          imageFormatGroup: Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.yuv420);
       _controller!.addListener(() {
         if (mounted) {
           setState(() {});
@@ -88,8 +88,9 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     ImagePreference args = ImagePreference("", DetectionType.food);
-    if (ModalRoute.of(context)!.settings.arguments != null)
+    if (ModalRoute.of(context)!.settings.arguments != null) {
       args = ModalRoute.of(context)!.settings.arguments as ImagePreference;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -117,10 +118,7 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
 
               return Padding(
                 padding: const EdgeInsets.all(40.0),
-                child: Center(
-                    child: Text(
-                        "Can't Access Camera Object. Please provide proper permissions",
-                        style: TextThemes.emphasisText())),
+                child: Center(child: Text("Can't Access Camera Object. Please provide proper permissions", style: TextThemes.emphasisText())),
               );
             }()),
         Positioned(
@@ -151,9 +149,7 @@ class _QueryPhotoState extends State<QueryPhoto> with WidgetsBindingObserver {
                       onPressed: () {
                         if (_imageData != null) {
                           // safety check, although not explicitly necessary
-                          Navigator.of(context).pushNamed("/image/infer",
-                              arguments: UserImage(_imageData!,
-                                  lookupMimeType(_imagePath!), args.type));
+                          Navigator.of(context).pushNamed("/image/infer", arguments: UserImage(_imageData!, lookupMimeType(_imagePath!), args.type));
                         }
                       },
                       child: const Text("Continue"))

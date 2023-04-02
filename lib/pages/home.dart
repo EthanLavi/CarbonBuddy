@@ -1,10 +1,6 @@
-import 'dart:html';
-
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:eat_neat/models/image_recognition/uid.dart';
-import 'package:eat_neat/pages/dish_input.dart';
-import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:flutter/material.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
 import 'package:permission_handler/permission_handler.dart';

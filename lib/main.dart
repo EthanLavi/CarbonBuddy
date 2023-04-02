@@ -2,7 +2,7 @@ import 'package:eat_neat/pages/dish_input.dart';
 import 'package:eat_neat/pages/home.dart';
 import 'package:eat_neat/pages/infer_image.dart';
 import 'package:eat_neat/pages/load_image.dart';
-import 'package:eat_neat/pages/recipe.dart';
+import 'package:eat_neat/pages/ingredients.dart';
 import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:eat_neat/pages/score.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class CarbonBuddy extends StatelessWidget {
         routes: {
           '/': (context) => const SplashHome(),
           '/image': (context) => const QueryPhoto(),
-          '/recipe': (context) => const Placeholder(),
+          '/recipe': (context) => const LocalSourcedPage(),
           '/image/infer': (context) => const InferencePage(),
           '/score': (context) => const ScorePage(),
           '/recipe/input': (context) => const RecipeInputPage(),
