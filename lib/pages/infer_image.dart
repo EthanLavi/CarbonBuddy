@@ -19,8 +19,7 @@ class InferencePage extends StatelessWidget {
         body: waitWhileQuerying<List<String>>(
             future: runningInference(args),
             child: (List<String> data) {
-              print(data);
-              return Text("");
+              return const Text("");
             }));
   }
 }

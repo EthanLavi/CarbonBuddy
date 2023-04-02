@@ -1,4 +1,3 @@
-import 'package:eat_neat/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class RecipeInputPage extends StatelessWidget {
