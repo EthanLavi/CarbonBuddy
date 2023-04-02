@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:eat_neat/models/helper/theme.dart';
 import 'package:eat_neat/models/image_recognition/google_cv.dart';
 import 'package:eat_neat/models/image_recognition/uid.dart';
+import 'package:eat_neat/pages/recipe_input.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:eat_neat/models/image_recognition/camera_singleton.dart';
@@ -68,7 +71,8 @@ class SplashHome extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 image: const DecorationImage(
-                                    image: AssetImage("assets/images/burger.jpg"),
+                                    image:
+                                        AssetImage("assets/images/burger.jpg"),
                                     fit: BoxFit.cover)),
                             child: Center(
                                 child: Container(
@@ -88,7 +92,8 @@ class SplashHome extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 image: const DecorationImage(
-                                    image: AssetImage("assets/images/nutrition.jpeg"),
+                                    image: AssetImage(
+                                        "assets/images/nutrition.jpeg"),
                                     fit: BoxFit.cover)),
                             child: Center(
                                 child: Container(
@@ -102,26 +107,35 @@ class SplashHome extends StatelessWidget {
                                     ))),
                           ),
                           const SizedBox(height: 10),
-                          Container(
-                            height: 100,
-                            width: 350,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/shopping-list.jpg"),
-                                    fit: BoxFit.cover)),
-                            child: Center(
-                                child: Container(
-                                    padding: const EdgeInsets.all(7.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.black12),
-                                    child: const Text(
-                                      "Recipe",
-                                      style: TextStyle(fontSize: 24),
-                                    ))),
-                          )
+                          InputChip(
+                              backgroundColor: Colors.transparent,
+                              label: Container(
+                                height: 100,
+                                width: 350,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/shopping-list.jpg"),
+                                        fit: BoxFit.cover)),
+                                child: Center(
+                                    child: Container(
+                                        padding: const EdgeInsets.all(7.0),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.black12),
+                                        child: const Text(
+                                          "Recipe",
+                                          style: TextStyle(fontSize: 24),
+                                        ))),
+                              ),
+                              onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RecipeInputPage()),
+                                  )),
                         ])
                       ]))
             ]);
