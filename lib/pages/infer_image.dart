@@ -8,7 +8,7 @@ class InferencePage extends StatelessWidget {
 
   Future<List<String>> runningInference(UserImage i) async {
     await GoogleAPIBridge.instance.saveImage(i.imgBytes, i.imgType);
-    return await GoogleAPIBridge.instance.runInference(DetectionType.food);
+    return await GoogleAPIBridge.instance.runInference(i.responseType);
   }
 
   @override

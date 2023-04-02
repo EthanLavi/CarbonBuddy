@@ -4,20 +4,20 @@ class CameraSingleton {
   static CameraSingleton? _instance;
   // Avoid self isntance
   CameraSingleton._();
-  
+
   // Camera object
   List<CameraDescription> _camera = [];
 
-  CameraDescription? getCamera(){
-    return _camera.first;
+  Future<void> init() async {
+    _camera = await availableCameras();
   }
 
-  set camera(List<CameraDescription> values){
-    if (_camera.isEmpty) _camera = values;
+  CameraDescription? getCamera() {
+    return _camera.isEmpty ? null : _camera.first;
   }
 
-  static CameraSingleton get instance{
+  static CameraSingleton get instance {
     _instance ??= CameraSingleton._();
     return _instance!;
-   }
+  }
 }
