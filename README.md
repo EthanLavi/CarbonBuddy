@@ -1,6 +1,7 @@
 # EatNeat
 
 by Compiled with Warnings
+
 Ben Schack, Ethan Lavi, Nathan Edmondson
 
 ## Project Vision
