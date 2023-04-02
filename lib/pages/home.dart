@@ -82,19 +82,28 @@ class SplashHome extends StatelessWidget {
                               height: 100,
                               width: 350,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/burger.jpg"),
-                                      fit: BoxFit.cover)),
+                                borderRadius: BorderRadius.circular(15),
+                                image: const DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/burger.jpg"),
+                                    fit: BoxFit.cover),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.15),
+                                    spreadRadius: 5,
+                                    blurRadius: 5,
+                                    offset: const Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
                               child: Center(
                                   child: Container(
                                       padding: const EdgeInsets.all(7.0),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: const Color.fromARGB(
-                                              220, 255, 255, 255)),
+                                          color: Colors.white60),
                                       child: const Text(
                                         "Use a Picture of Food",
                                         style: TextStyle(fontSize: 24),
@@ -124,8 +133,7 @@ class SplashHome extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: const Color.fromARGB(
-                                              220, 255, 255, 255)),
+                                          color: Colors.white60),
                                       child: const Text(
                                         "Use Nutrition Facts",
                                         style: TextStyle(fontSize: 24),
@@ -135,7 +143,7 @@ class SplashHome extends StatelessWidget {
                           const SizedBox(height: 10),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed("/recipe",
+                              Navigator.of(context).pushNamed("/recipe/input",
                                   arguments: DetectionType.text);
                             },
                             child: Container(
@@ -153,8 +161,7 @@ class SplashHome extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: const Color.fromARGB(
-                                              255, 255, 255, 255)),
+                                          color: Colors.black12),
                                       child: const Text(
                                         "Copy & Paste a Recipe",
                                         style: TextStyle(fontSize: 24),
